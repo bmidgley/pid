@@ -38,39 +38,27 @@ draw = ImageDraw.Draw(image)
 # Draw a black filled box to clear the image.
 draw.rectangle((0,0,width,height), outline=0, fill=0)
 
-# Draw some shapes.
-# First define some constants to allow easy resizing of shapes.
-padding = 2
-shape_width = 20
-top = padding
-bottom = height-padding
-# Move left to right keeping track of the current x position for drawing shapes.
-x = padding
-# Draw an ellipse.
-draw.ellipse((x, top , x+shape_width, bottom), outline=255, fill=0)
-x += shape_width+padding
-# Draw a rectangle.
-draw.rectangle((x, top, x+shape_width, bottom), outline=255, fill=0)
-x += shape_width+padding
-# Draw a triangle.
-draw.polygon([(x, bottom), (x+shape_width/2, top), (x+shape_width, bottom)], outline=255, fill=0)
-x += shape_width+padding
-# Draw an X.
-draw.line((x, bottom, x+shape_width, top), fill=255)
-draw.line((x, top, x+shape_width, bottom), fill=255)
-x += shape_width+padding
-
 # Load default font.
 font = ImageFont.load_default()
+#draw.text((x, top),    'Hello',  font=font, fill=255)
+#draw.text((x, top+20), 'World!', font=font, fill=255)
 
-# Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
-# Some other nice fonts to try: http://www.dafont.com/bitmap.php
-#font = ImageFont.truetype('Minecraftia.ttf', 8)
+sensor = mpu6050(0x68)
 
-# Write two lines of text.
-draw.text((x, top),    'Hello',  font=font, fill=255)
-draw.text((x, top+20), 'World!', font=font, fill=255)
+x0 = 0
+y0 = 0
+x1 = 0
+y1 = 0
 
-# Display image.
-disp.image(image)
-disp.display()
+while True:
+  a = sensor.get_accel_data()
+  x1 = (x1 + a['y'])
+  y1 = (y1 - a['x'])
+  if (x1 == x1 % width and y1 == y1 % height):
+    draw.line((x0, y0, x1, y1), fill=255)
+  x1 = x0 = x1 % width
+  y1 = y0 = y1 % height
+
+  disp.image(image)
+  disp.display()
+
