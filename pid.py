@@ -1,7 +1,7 @@
 import time
 
 import RPi.GPIO as GPIO
-
+from mpu6050 import mpu6050
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 
@@ -15,10 +15,6 @@ GPIO.output(4, GPIO.HIGH)
 
 # Raspberry Pi pin configuration:
 RST = 24
-# Note the following are only used with SPI:
-DC = 23
-SPI_PORT = 0
-SPI_DEVICE = 0
 
 # 128x64 display with hardware I2C:
 disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
