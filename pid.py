@@ -1,3 +1,15 @@
+# pid
+
+# sda to 4
+# scl to 6
+# vcc to 8
+# gnd to 10
+# gy-521's vcc to pin 1
+
+# sudo apt install python-pip
+# sudo pip install RPi.GPIO Adafruit-SSD1306 mpu6050-raspberrypi
+# add to /etc/rc.local before exit: (python /home/pi/pid/pid.py) &
+
 import time
 
 import RPi.GPIO as GPIO
