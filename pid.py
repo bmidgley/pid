@@ -65,7 +65,7 @@ while True:
   for (x,y) in snake:
     x = x % width
     y = y % height
-    if (abs(x - x0) + abs(y - y0) < 20):
+    if (abs(x - x0) + abs(y - y0) < 30):
       draw.line((x0, y0, x, y), fill=255)
     x0 = x
     y0 = y
@@ -76,5 +76,10 @@ while True:
   if(len(snake) > length):
     snake.pop(0)
 
-  GPIO.output(23, GPIO.HIGH if (x0 < 5 or y0 < 5) else GPIO.LOW)
+  if (x0 < 5 or y0 < 5):
+    GPIO.output(23, GPIO.HIGH)
+    length += 5
+  else:
+    GPIO.output(23, GPIO.LOW)
+
 
